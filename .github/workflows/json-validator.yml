@@ -23,3 +23,12 @@ jobs:
           sudo apt-get install python3-pip -y --no-install-recommends
           sudo pip3 install json-spec
           json validate --schema-file=php/containers-schema.json --document-file=php/containers.json
+          JSON_FILES="$(find ./community-containers -name '*.json')"
+          mapfile -t JSON_FILES <<< "$JSON_FILES"
+          for file in "${JSON_FILES[@]}"; do
+            json validate --schema-file=php/containers-schema.json --document-file="$file" | tee -a ./json-validator.log
+          done
+          # if grep "^Issues: [0-9]" ./json-validator.log; then
+            cat ./json-validator.log
+            exit 1
+          # fi
