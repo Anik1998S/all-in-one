@@ -14,7 +14,6 @@
             "environment": [
                 "TZ=%TIMEZONE%"
             ],
-            "apparmor_unconfined": true,
             "volumes": [
                 {
                     "source": "nextcloud_aio_backup_nextcloud",
