@@ -37,6 +37,11 @@ if [ -n "$PHP_MAX_CHILDREN" ]; then
     sed -i "s/^pm.max_children =.*/pm.max_children = $PHP_MAX_CHILDREN/" /usr/local/etc/php-fpm.d/www.conf
 fi
 
+# Limit access to php-fpm
+# TODO
+grep -q ';listen.allowed_clients' /usr/local/etc/php-fpm.d/www.conf
+sed -i 's|;listen.allowed_clients.*|listen.allowed_clients = 127.0.0.1,::1#TODO|' /usr/local/etc/php-fpm.d/www.conf
+
 # Check permissions in ncdata
 touch "$NEXTCLOUD_DATA_DIR/this-is-a-test-file" &>/dev/null
 if ! [ -f "$NEXTCLOUD_DATA_DIR/this-is-a-test-file" ]; then
